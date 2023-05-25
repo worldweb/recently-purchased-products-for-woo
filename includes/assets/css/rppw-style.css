@@ -1,0 +1,24 @@
+ul.recently_purchased_products_for_woo li {
+    display: inline-block;
+    width: 100%;
+	font-size: 15px;
+}
+ul.recently_purchased_products_for_woo span.rppw_product_date, ul.recently_purchased_products_for_woo span.rppw_product_price {
+    display: block;
+}
+ul.recently_purchased_products_for_woo .rppw_product_title a {
+	text-decoration: none;
+}
+ul.recently_purchased_products_for_woo.grid li {
+	width: auto;
+	margin-top: 10px;
+}
+.main_recently_purchased_products_for_woo {
+    margin-top: 20px;
+}
+.main_recently_purchased_products_for_woo ul {
+	padding: 0;
+}
+.main_recently_purchased_products_for_woo .rppw_order_title {
+    padding: 10px 0;
+}
