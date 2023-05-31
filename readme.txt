@@ -8,7 +8,7 @@ Tags:              recent purchases, purchases, last purchases, recent orders, w
 Author URI:        https://worldwebtechnology.com
 Requires at least: 5.0
 Requires PHP:      5.6
-Tested up to:      6.1.1
+Tested up to:      6.2.2
 Stable tag:        1.0.2
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -37,9 +37,12 @@ Below are the shortcode supported options:
 * limit: Used to limit the number of products. Default is 5.
 * order: Order of listing either ASC or DESC. Default is DESC.
 * img: Show or hide the product image in listing. Default is Show.
-* img_size: Spcify image size 50 if you want 50x50 image.
+* img_size: Specify image size 50 if you want 50x50 image.
 * date: Show or hide product date. Default is Show.
 * price: Show or hide the product price. Default is Show.
+* category: Show or hide the product category. Default is Show.
+* cart: Show or hide the Add to cart button. Default is Hide.
+* rating: Show or hide the Product rating. Default is Hide.
 * view: Define the view layout. Option are grid and list. Default is list.  
 
 == Installation ==

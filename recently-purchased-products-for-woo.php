@@ -9,9 +9,14 @@
  * Text Domain: recently-purchased-products-for-woo
  * Domain Path: languages
  * 
- * WC tested up to: 7.2.1
- * Tested up to: 6.1.1
+ * WC tested up to: 7.7.1
+ * Tested up to: 6.2.2
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) || ! defined( 'ABSPATH' ) ) {
+    die;
+}
 
 /**
  * Basic plugin definitions 
@@ -19,41 +24,58 @@
  * @package Recently Purchased Products For Woo
  * @since 1.0
  */
+
+/**
+ * Currently plugin version.
+ * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Rename this for your plugin and update it as you release new versions.
+ */
 if( !defined( 'RPPW_VERSION' ) ) {
 	define( 'RPPW_VERSION', '1.0.2' ); // Plugin Version
 }
+
 if( !defined( 'RPPW_DIR' ) ) {
   define( 'RPPW_DIR', dirname( __FILE__ ) ); // Plugin dir
 }
+
 if( !defined( 'RPPW_URL' ) ) {
   define( 'RPPW_URL', plugin_dir_url( __FILE__ ) ); // Plugin url
 }
+
 if( !defined( 'RPPW_INC_DIR' ) ) {
   define( 'RPPW_INC_DIR', RPPW_DIR.'/includes' ); // Plugin include dir
 }
+
 if( !defined( 'RPPW_INC_URL' ) ) {
   define( 'RPPW_INC_URL', RPPW_URL.'includes' ); // Plugin include url
 }
+
 if( !defined( 'RPPW_ADMIN_DIR' ) ) {
   define( 'RPPW_ADMIN_DIR', RPPW_INC_DIR.'/admin' ); // Plugin admin dir
 }
+
 if( !defined( 'RPPW_PLUGIN_BASENAME' ) ) {
 	define( 'RPPW_PLUGIN_BASENAME', basename( RPPW_DIR ) ); //Plugin base name
 }
+
 if( !defined( 'RPPW_PREFIX' ) ) {
   define('RPPW_PREFIX', 'rppw'); // Plugin Prefix
 }
+
 if( !defined( 'RPPW_VAR_PREFIX' ) ) {
   define('RPPW_VAR_PREFIX', '_rppw_'); // Variable Prefix
 }
+
 
 /**
  * Load Text Domain
  *
  * This gets the plugin ready for translation.
- *
- * @package Recently Purchased Products For Woo
- * @since 1.0
+ * 
+ * @since      1.0.0
+ * @package    Recently Purchased Products For Woo
+ * @author     World Web Technology <biz@worldwebtechnology.com>
+ * 
  */
 function rppw_load_text_domain() {
 	
@@ -78,11 +100,14 @@ function rppw_load_text_domain() {
 	}
 }
 
+
 /**
  * Prints an error that the system requirements weren't met.
- *
- * @package Recently Purchased Products For Woo
- * @since 1.0
+ * 
+ * @since      1.0.0
+ * @package    Recently Purchased Products For Woo
+ * @author     World Web Technology <biz@worldwebtechnology.com>
+ * 
  */
 if( !function_exists( 'rppw_woocommerce_required_error' ) ) {
 	
@@ -94,14 +119,14 @@ if( !function_exists( 'rppw_woocommerce_required_error' ) ) {
 	}
 }
 
-//add action to load plugin
-add_action( 'plugins_loaded', 'rppw_plugin_loaded' );
 
 /**
  * Load plugin after dependent plugin is loaded successfully
  * 
- * @package Recently Purchased Products For Woo
- * @since 1.0
+ * @since      1.0.0
+ * @package    Recently Purchased Products For Woo
+ * @author     World Web Technology <biz@worldwebtechnology.com>
+ * 
  */
 function rppw_plugin_loaded() {
 	
@@ -112,7 +137,12 @@ function rppw_plugin_loaded() {
 		rppw_load_text_domain();
 
 		// Delclare global variable to make it customizable without making changes in plugin
-		global $rppw_public, $rppw_scripts;
+		global $rppw_admin, $rppw_public, $rppw_scripts;
+
+		include_once( RPPW_INC_DIR.'/class-rppw-admin.php' );
+		$rppw_admin = new RPPW_Admin();
+		$rppw_admin->add_hooks();
+		
 
 		include_once( RPPW_INC_DIR.'/class-rppw-public.php' );
 		$rppw_public = new RPPW_Public();
@@ -134,3 +164,22 @@ function rppw_plugin_loaded() {
 		add_action( 'admin_notices', 'rppw_woocommerce_required_error' );
 	}
 }
+//add action to load plugin
+add_action( 'plugins_loaded', 'rppw_plugin_loaded' );
+
+
+/**
+ * Add custom links on the Plugin page
+ * 
+ * @since      1.0.2
+ * @package    Recently Purchased Products For Woo
+ * @author     World Web Technology <biz@worldwebtechnology.com>
+ * 
+ */
+function rppw_add_action_links( $actions ) {
+    
+  	$custom_actions[] = '<a href="https://www.worldwebtechnology.com/our-portfolio/" target="_blank">'. __('More by World Web Technology','	recently-purchased-products-for-woo') . '</a>';
+    
+  	return array_merge( $actions, $custom_actions );
+}
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'rppw_add_action_links' );

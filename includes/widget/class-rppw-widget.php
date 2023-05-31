@@ -1,20 +1,27 @@
-<?php 
-
-/// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // If this file is called directly, abort.
 
 /**
+ * The Widget specific class functionality of the plugin.
  *
- * Manage Widget Class
+ * @link       https://www.worldwebtechnology.com/
+ * @since      1.0.0
  *
- * @package Recently Purchased Products For Woo
- * @since 1.0
+ * @package    Recently Purchased Products For Woo
+ * @subpackage Recently Purchased Products For Woo/includes/widget
+ * @author     World Web Technology <biz@worldwebtechnology.com>
  */
 if( !class_exists( 'RPPW_Create_Widget' ) ) {
 	
 	class RPPW_Create_Widget extends WP_Widget {
-		
-		// class constructor
+
+		/**
+	     * Initialize the class and set its properties.
+	     *
+	     * @since      1.0.0
+	     * @package    Recently Purchased Products For Woo
+	     * @subpackage Recently Purchased Products For Woo/includes/widget
+	     * @author     World Web Technology <biz@worldwebtechnology.com>
+	     */
 		public function __construct(){
 			
 			$widget_ops = array(
@@ -23,13 +30,16 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 			);	
 			parent::__construct( 'rppw-widget', esc_html__( 'Recently Purchased Products For Woocommerce ', 'recently-purchased-products-for-woo' ), $widget_ops);			
 		}
-		
+
+
 		/**
-		 * Widget From HTML
-		 *
-		 * @package Recently Purchased Products For Woo
-		 * @since 1.0
-		 */
+	     * Widget Form HTML
+	     *
+	     * @since      1.0.0
+	     * @package    Recently Purchased Products For Woo
+	     * @subpackage Recently Purchased Products For Woo/includes/widget
+	     * @author     World Web Technology <biz@worldwebtechnology.com>
+	     */
 		public function form( $instance ){ 
 		
 			$title = ( isset( $instance['title'] ) && !empty( $instance['title'] ) ? ( $instance['title'] ): '' );
@@ -38,9 +48,15 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 			
 			$img = ( isset( $instance['img'] ) && !empty( $instance['img'] ) ? ( $instance['img'] ): '' );
 			$img_size = ( isset( $instance['img_size'] ) && !empty( $instance['img_size'] ) ? ( $instance['img_size'] ): '' );
+			$img_type = ( isset( $instance['img_type'] ) && !empty( $instance['img_type'] ) ? ( $instance['img_type'] ): '' );
 			
 			$date = ( isset( $instance['date'] ) && !empty( $instance['date'] ) ? ( $instance['date'] ): '' );
-			$price = ( isset( $instance['price'] ) && !empty( $instance['price'] ) ? ( $instance['price'] ): '' ); ?>
+			$price = ( isset( $instance['price'] ) && !empty( $instance['price'] ) ? ( $instance['price'] ): '' );
+			$category = ( isset( $instance['category'] ) && !empty( $instance['category'] ) ? ( $instance['category'] ): '' );
+			$cart = ( isset( $instance['cart'] ) && !empty( $instance['cart'] ) ? ( $instance['cart'] ): '' );
+			$customer_info = ( isset( $instance['customer_info'] ) && !empty( $instance['customer_info'] ) ? ( $instance['customer_info'] ): '' );
+			$rating = ( isset( $instance['rating'] ) && !empty( $instance['rating'] ) ? ( $instance['rating'] ): '' );
+			$slider = ( isset( $instance['slider'] ) && !empty( $instance['slider'] ) ? ( $instance['slider'] ): '' );  ?>
 			
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'recently-purchased-products-for-woo' ); ?></label>
@@ -58,6 +74,14 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 			<p>
 				<label for="<?php echo $this->get_field_id( 'img_size' ); ?>"><?php esc_html_e( 'Image Size:', 'recently-purchased-products-for-woo' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'img_size' ); ?>" name="<?php echo $this->get_field_name( 'img_size' ); ?>" type="number" value="<?php echo esc_attr( $img_size ); ?>" />
+			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'img_type' ); ?>"><?php esc_html_e( 'Image Type:', 'recently-purchased-products-for-woo' ); ?></label>
+				<select id="<?php echo $this->get_field_id( 'img_type' ); ?>" name="<?php echo $this->get_field_name( 'img_type' ); ?>" class="widefat" style="width:100%;">
+					<option value="product"<?php selected( $img_type, 'product' ); ?>><?php esc_html_e( 'Product Image', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="avatar"<?php selected( $img_type, 'avatar' ); ?>><?php esc_html_e( 'User Avatar', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
 			</p>
 			
 			<p>
@@ -80,6 +104,22 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 					<option value="Hide"<?php selected( $price, 'Hide' ); ?>><?php esc_html_e( 'Hide', 'recently-purchased-products-for-woo' ); ?></option>
 				</select>
 			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'category' ); ?>"><?php esc_html_e( 'Category:', 'recently-purchased-products-for-woo' ); ?></label> 
+				<select id="<?php echo $this->get_field_id( 'category' ); ?>" name="<?php echo $this->get_field_name( 'category' ); ?>" class="widefat" style="width:100%;">
+					<option value="Show"<?php selected( $category, 'Show' ); ?>><?php esc_html_e( 'Show', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="Hide"<?php selected( $category, 'Hide' ); ?>><?php esc_html_e( 'Hide', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
+			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'rating' ); ?>"><?php esc_html_e( 'Product Rating:', 'recently-purchased-products-for-woo' ); ?></label> 
+				<select id="<?php echo $this->get_field_id( 'rating' ); ?>" name="<?php echo $this->get_field_name( 'rating' ); ?>" class="widefat" style="width:100%;">
+					<option value="Show"<?php selected( $rating, 'Show' ); ?>><?php esc_html_e( 'Show', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="Hide"<?php selected( $rating, 'Hide' ); ?>><?php esc_html_e( 'Hide', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
+			</p>
 			
 			<p>
 				<label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php esc_html_e( 'Order:', 'recently-purchased-products-for-woo' ); ?></label>
@@ -88,39 +128,71 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 					<option value="ASC"<?php selected( $order, 'ASC' ); ?>><?php esc_html_e( 'ASC', 'recently-purchased-products-for-woo' ); ?></option>
 				</select>
 			</p>
-			
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'cart' ); ?>"><?php esc_html_e( 'Add to Cart Button:', 'recently-purchased-products-for-woo' ); ?></label> 
+				<select id="<?php echo $this->get_field_id( 'cart' ); ?>" name="<?php echo $this->get_field_name( 'cart' ); ?>" class="widefat" style="width:100%;">
+					<option value="Show"<?php selected( $cart, 'Show' ); ?>><?php esc_html_e( 'Show', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="Hide"<?php selected( $cart, 'Hide' ); ?>><?php esc_html_e( 'Hide', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
+			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'customer_info' ); ?>"><?php esc_html_e( 'Customer Info:', 'recently-purchased-products-for-woo' ); ?></label> 
+				<select id="<?php echo $this->get_field_id( 'customer_info' ); ?>" name="<?php echo $this->get_field_name( 'customer_info' ); ?>" class="widefat" style="width:100%;">
+					<option value="Show"<?php selected( $customer_info, 'Show' ); ?>><?php esc_html_e( 'Show', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="Hide"<?php selected( $customer_info, 'Hide' ); ?>><?php esc_html_e( 'Hide', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
+			</p>
+
+			<p>
+				<label for="<?php echo $this->get_field_id( 'slider' ); ?>"><?php esc_html_e( 'Show in Slider:', 'recently-purchased-products-for-woo' ); ?></label> 
+				<select id="<?php echo $this->get_field_id( 'slider' ); ?>" name="<?php echo $this->get_field_name( 'slider' ); ?>" class="widefat" style="width:100%;">
+					<option value="Yes"<?php selected( $slider, 'Yes' ); ?>><?php esc_html_e( 'Yes', 'recently-purchased-products-for-woo' ); ?></option>
+					<option value="No"<?php selected( $slider, 'No' ); ?>><?php esc_html_e( 'No', 'recently-purchased-products-for-woo' ); ?></option>
+				</select>
+			</p>
 			<?php
 		}
-		
+
+
 		/**
-		 * Update Widget From Data in DB
-		 *
-		 * @package Recently Purchased Products For Woo
-		 * @since 1.0
-		 */
+	     * Update Widget Form Data in DB
+	     *
+	     * @since      1.0.0
+	     * @package    Recently Purchased Products For Woo
+	     * @subpackage Recently Purchased Products For Woo/includes/widget
+	     * @author     World Web Technology <biz@worldwebtechnology.com>
+	     */
 		public function update( $new_instance, $old_instance ){
 			
 			$instance = $old_instance;
 			$instance['title'] = ( isset( $new_instance['title'] ) && !empty( $new_instance['title'] ) ? ( $new_instance['title'] ) : '' );
-			
 			$instance['num_of_order'] = ( isset($new_instance['num_of_order'] ) && !empty( $new_instance['num_of_order'] ) ? ( $new_instance['num_of_order'] ) : '' );
-			$instance['order'] = ( isset( $new_instance['order'] ) && !empty( $new_instance['order'] ) ? ( $new_instance['order'] ) : '' );
-			
+			$instance['order'] = ( isset( $new_instance['order'] ) && !empty( $new_instance['order'] ) ? ( $new_instance['order'] ) : '' );			
 			$instance['img'] = ( isset( $new_instance['img'] ) && !empty( $new_instance['img'] ) ? ( $new_instance['img'] ) : '' );
 			$instance['img_size'] = ( isset( $new_instance['img_size'] ) && !empty( $new_instance['img_size'] ) ? ( $new_instance['img_size'] ) : '' );
-			
+			$instance['img_type'] = ( isset( $new_instance['img_type'] ) && !empty( $new_instance['img_type'] ) ? ( $new_instance['img_type'] ) : '' );
 			$instance['date'] = ( isset( $new_instance['date'] ) && !empty( $new_instance['date'] ) ? ( $new_instance['date'] ) : '' );
 			$instance['price'] = ( isset( $new_instance['price'] ) && !empty( $new_instance['price'] ) ? ( $new_instance['price'] ) : '' );
+			$instance['category'] = ( isset( $new_instance['category'] ) && !empty( $new_instance['category'] ) ? ( $new_instance['category'] ) : '' );
+			$instance['cart'] = ( isset( $new_instance['cart'] ) && !empty( $new_instance['cart'] ) ? ( $new_instance['cart'] ) : '' );
+			$instance['customer_info'] = ( isset( $new_instance['customer_info'] ) && !empty( $new_instance['customer_info'] ) ? ( $new_instance['customer_info'] ) : '' );
+			$instance['rating'] = ( isset( $new_instance['rating'] ) && !empty( $new_instance['rating'] ) ? ( $new_instance['rating'] ) : '' );
+			$instance['slider'] = ( isset( $new_instance['slider'] ) && !empty( $new_instance['slider'] ) ? ( $new_instance['slider'] ) : '' );
 			
 			return $instance;
 		}
-		
+
+
 		/**
-		 * Display Data in front site sidebar
-		 *
-		 * @package Recently Purchased Products For Woo
-		 * @since 1.0
-		 */
+	     * Display Data in front site sidebar
+	     *
+	     * @since      1.0.0
+	     * @package    Recently Purchased Products For Woo
+	     * @subpackage Recently Purchased Products For Woo/includes/widget
+	     * @author     World Web Technology <biz@worldwebtechnology.com>
+	     */
 		public function widget( $args, $instance ){
 			
 			global $rppw_public;
@@ -133,33 +205,64 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 			
 			$img_view = ( isset( $instance['img'] ) && !empty( $instance['img'] ) ? $instance['img'] : '' );
 			$img_size = ( isset( $instance['img_size'] ) && !empty( $instance['img_size'] ) ? $instance['img_size'] : '' );
+			$img_type = ( isset( $instance['img_type'] ) && !empty( $instance['img_type'] ) ? $instance['img_type'] : '' );
 			
 			$date_view = ( isset( $instance['date'] ) && !empty( $instance['date'] ) ? $instance['date'] : '' );
 			$price_view = ( isset( $instance['price'] ) && !empty( $instance['price'] ) ? $instance['price'] : '' );
-			
+			$category_view = ( isset( $instance['category'] ) && !empty( $instance['category'] ) ? $instance['category'] : '' );
+			$cart_view = ( isset( $instance['cart'] ) && !empty( $instance['cart'] ) ? $instance['cart'] : '' );
+			$customer_view = ( isset( $instance['customer_info'] ) && !empty( $instance['customer_info'] ) ? $instance['customer_info'] : '' );
+			$rating_view = ( isset( $instance['rating'] ) && !empty( $instance['rating'] ) ? $instance['rating'] : '' );
+			$is_slider  = ( isset( $instance['slider'] ) && !empty( $instance['slider'] ) ? $instance['slider'] : '' );
+
+
 			echo $before_widget;
 			
 			if( !empty( $title ) ){
 				echo $before_title . $title . $after_title;
 			}
 
+			$slider_class = '';
+			if(  !empty($is_slider) && $is_slider == "Yes"){
+
+				//Load plugin Slider CSS file				
+				wp_enqueue_style( 'rppw-slick-style' );
+				
+				//Load plugin JS file				
+				wp_enqueue_script( 'rppw-slick-script' );
+				$slider_class = ' rppw-product-slider slick';
+			}
+
+			//Load plugin custom CSS file
 			wp_enqueue_style( 'rppw-css' );
+
+			//Load plugin custom JS file
+			wp_enqueue_script( 'rppw-public-script' );
+
 
 			$orders_list = $rppw_public->get_recently_order( $num_of_order, $order );			
 			
-			$out = '<ul class="recently_purchased_products_for_woo">';
+			$out = '<div class="recently_purchased_products_for_woo item-list-products'.$slider_class.'">';
 			
 			if( !empty( $orders_list ) && is_array( $orders_list ) ) {
 				
 				foreach ( $orders_list as $k => $order ) {
 					
 					setup_postdata( $order );
-					$wc_order = wc_get_order( $order->ID );
- 					$date = date( get_option( 'date_format' ), strtotime( $wc_order->get_date_created() ) );
 					
+					$wc_order = wc_get_order( $order->ID );
+					$wc_date = date( get_option( 'date_format' ), strtotime( $wc_order->get_date_created() ) );
+					
+					$customer_fname = $wc_order->get_billing_first_name();
+					$customer_lname = $wc_order->get_billing_last_name();							
+					$complete_date  = $wc_order->get_date_completed();
+					$customer_ID = $wc_order->get_user_id();
+					$customer_image = get_avatar( $customer_ID, $img_size, '', $customer_fname );
+
 					$user_id = $wc_order->get_user_id();
 					$products = $wc_order->get_items();
 					$product_ids = array();
+
 					foreach( $products as $key => $product ){
 						
 						$variation_id = ( !empty( $product->get_variation_id() ) ? $product->get_variation_id() : '' );
@@ -169,47 +272,115 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 					$product_ids = array_map("unserialize", array_unique(array_map("serialize", $product_ids)));
 					$item_id = $product_ids[0]['product_id'];
 					
+					$terms = get_the_terms( $item_id, 'product_cat' );
+
+					if( !empty($terms) ){
+
+						foreach ($terms as $term) {
+
+						    $product_cat_id = $term->term_id;
+						    $product_cat_name = $term->name;
+						    break;
+						}
+					}	
+
 					$product = wc_get_product( $item_id );
 					$url = get_permalink( $item_id );
 					
 					if( !empty( $product ) ){
 						
-						$out .=  '<li>';
+						$out .=  '<div class="prod-item">';
 						if( !empty( $img_view ) && strcmp( $img_view , 'Show' ) >= 0 ){
 							
-							if( isset( $product_ids[0]['variation_id'] ) && !empty( $product_ids[0]['variation_id'] ) ){
+							if( strtolower($img_type) == 'avatar'){
 								
-								$variation = new WC_Product_Variation( $product_ids[0]['variation_id'] );
-								
-								$image = wp_get_attachment_image( $variation->get_image_id(), array( $img_size, $img_size ), '', array('class' => 'alignleft') );
-								$out .= '<div class="rppw_product_img"><a href="'.$url.'">'.$image.'</a></div>';
-								
-							}else {
-								
-								$image = get_the_post_thumbnail( $item_id, array( $img_size, $img_size ), array('class' => 'alignleft') );
-								$out .= '<div class="rppw_product_img"><a href="'.$url.'">'.$image.'</a></div>';
+								// User Avatar
+								$out .= '<div class="rppw_product_img rppw_image_box"><a href="' . $url . '">' . $customer_image . '</a></div>';
+
+							} else {
+								// Product Image
+								if( isset( $product_ids[0]['variation_id'] ) && !empty( $product_ids[0]['variation_id'] ) ){
+									
+									$variation = new WC_Product_Variation( $product_ids[0]['variation_id'] );
+									
+									$image = wp_get_attachment_image( $variation->get_image_id(), array( $img_size, $img_size ), '', array('class' => 'alignleft') );
+									$out .= '<div class="rppw_product_img rppw_image_box"><a href="' . $url . '">' . $image . '</a></div>';
+									
+								} else {
+									
+									$image = get_the_post_thumbnail( $item_id, array( $img_size, $img_size ), array('class' => 'alignleft') );
+									$out .= '<div class="rppw_product_img rppw_image_box"><a href="' . $url . '">' . $image . '</a></div>';
+								}
 							}
 						}
-						
-						$out .= '<div class="rppw_product_title"><a href="'.$url.'">'.$product->get_title().'</a>';
-						
+
+						$out .= '<div class="rppw_product_content">';
+
+						if( !empty( $category_view ) && strcmp( $category_view , 'Show' ) >= 0 ){
+
+							$cat_url = get_term_link( $product_cat_id, 'product_cat' );
+
+							$out .= '<div class="widget-option rppw_product_category">';
+							$out .= '<span class="product-cat">'. esc_html( 'Cat ', 'recently-purchased-products-for-woo' )  .'</span>';
+							$out .= '<a href="' . $cat_url . '">' . $product_cat_name . '</a>';
+							$out .= '</div>';
+						}
+
+						$out .= '<div class="rppw_product_title"><a href="'.$url.'">'.$product->get_title().'</a></div>';
+
+						if( !empty( $customer_view ) && strcmp( strtolower($customer_view) , 'show' ) >= 0 ) {
+							$out .= '<div class="rppw_product_customer_info">';
+							$out .= '<span class="product-customer-info">'. esc_html( ' Purchased By ', 'recently-purchased-products-for-woo' ) . $customer_fname ." ". $customer_lname . '</span>';
+							$out .= esc_html( ' for ', 'recently-purchased-products-for-woo' );
+							$out .= '</div>';
+						}
+
 						if( !empty( $price_view ) && strcmp( $price_view , 'Show' ) >= 0 ){
-							
+								
 							$price = $product->get_price_html();
+
+							$out .= '<div class="rppw_product_price_box">';
 							$out .= '<span class="rppw_product_price price">'.$price.'</span>';
+							$out .= '</div>';
 						}
-						if( !empty( $date_view ) && strcmp( $date_view , 'Show' ) >= 0 ){
+
+					
+						$out .= '<div class="rppw_product_info">';
+
+						if( !empty( $date_view ) && strcmp( strtolower($date_view) , 'show' ) >= 0 ){
 						
-							$out .= '<span class="rppw_product_date">'.$date.'</span>';
+							$out .= '<span class="rppw_product_date">'.' On '.$wc_date.'</span>';
 						}
-						$out .= '</div></li>';
+
+						if( !empty( $rating_view ) && strcmp( $rating_view , 'Show' ) >= 0 ){
+							$rating  = $product->get_average_rating();
+							$count   = $product->get_rating_count();
+
+							$out .= '<div class="rppw_product_ratings">';
+							$out .= wc_get_rating_html( $rating, $count );
+							$out .= '</div>';
+						}
+
+						$out .= '</div>';
+
+						
+						if( !empty( $cart_view ) && strcmp( strtolower($cart_view) , 'show' ) >= 0 ){
+							$out .= '<div class="rppw_product_cart-box">';
+							$out .= '<span class="rppw_product_cart_button widget widget-option">'. do_shortcode('[add_to_cart id="'.$product->get_id().'" style="border:0 solid #ccc; padding: 0px;" show_price="false" quantity="1"]') .'</span>';
+							$out .= '</div>';
+						}
+						
+						$out .= '</div>';
+						$out .= '</div>';
+
 					}
 				}
 				wp_reset_postdata();
+
 			} else {
-				$out .= '<li><span class="rppw_no_order">' . esc_html__( 'There are no recent purchases.', 'recently-purchased-products-for-woo' ) . '</span></div>';
+				$out .= '<div><span class="rppw_no_order">' . esc_html__( 'There are no recent purchases.', 'recently-purchased-products-for-woo' ) . '</span></div>';
 			}
-			$out .= '</ul>';
+			$out .= '</div>';
 			
 			echo $out;
 			echo $after_widget;
@@ -217,6 +388,15 @@ if( !class_exists( 'RPPW_Create_Widget' ) ) {
 	}	
 }
 
+
+/**
+ * Register Widget for Sidebar
+ *
+ * @since      1.0.0
+ * @package    Recently Purchased Products For Woo
+ * @subpackage Recently Purchased Products For Woo/includes/widget
+ * @author     World Web Technology <biz@worldwebtechnology.com>
+ */
 if( !function_exists( 'rppw_register_widget' ) ) {
 
 	function rppw_register_widget() {		
