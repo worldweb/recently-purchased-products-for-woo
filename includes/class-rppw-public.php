@@ -268,6 +268,8 @@ if( !class_exists('RPPW_Public') ) {
 					'infinite' => 'true',					
 			), $atts ) );
 
+			ob_start();
+
 			$out = '<div class="main_recently_purchased_products_for_woo rpp_slider_wrap">';
 				if( !empty( $title ) ){
 					$out .= '<div class="rppw_order_title">' . $title . '</div>';
@@ -448,6 +450,7 @@ if( !class_exists('RPPW_Public') ) {
 				}
 				$out .= '</div>';
 			$out .= '</div>';
+			$out .= ob_get_clean();
 			
 			return $out;
 		}
