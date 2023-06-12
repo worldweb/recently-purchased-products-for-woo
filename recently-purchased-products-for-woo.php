@@ -3,7 +3,7 @@
  * Plugin Name: Recently Purchased Products For Woo
  * Plugin URI: https://wordpress.org/plugins/recently-purchased-products-for-woo
  * Description: Display Recently Purchased Products For Woocommerce using Widget and Shortcode
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: World Web Technology
  * Author URI: http://www.worldwebtechnology.com
  * Text Domain: recently-purchased-products-for-woo
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) || ! defined( 'ABSPATH' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 if( !defined( 'RPPW_VERSION' ) ) {
-	define( 'RPPW_VERSION', '1.0.2' ); // Plugin Version
+	define( 'RPPW_VERSION', '1.0.3' ); // Plugin Version
 }
 
 if( !defined( 'RPPW_DIR' ) ) {
