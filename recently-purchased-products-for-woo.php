@@ -66,6 +66,10 @@ if( !defined( 'RPPW_VAR_PREFIX' ) ) {
   define('RPPW_VAR_PREFIX', '_rppw_'); // Variable Prefix
 }
 
+if( !defined( 'NO_IMAGE_PNG' ) ) {
+  define('NO_IMAGE_PNG', 'no-image.png'); // Default image
+}
+
 
 /**
  * Load Text Domain
