@@ -269,17 +269,19 @@ if (!class_exists('RPPW_Public')) {
 				'dots' => 'true',
 				'arrow' => 'true',
 				'infinite' => 'true',
-			), $atts));
+			), $atts) );
 
 
 			//default image
 			$default_image = RPPW_URL.'includes/assets/image/'.NO_IMAGE_PNG;
 
+			$out = '';
+
 			ob_start();
 
-			$out = '<div class="main_recently_purchased_products_for_woo rpp_slider_wrap">';
-			if (!empty($title)) {
-				$out .= '<div class="rppw_order_title">' . $title . '</div>';
+			$out .= '<div class="main_recently_purchased_products_for_woo rpp_slider_wrap">';
+			if (!empty($title) ) {
+				$out .= '<div class="rppw_order_title"><h2>' . sanitize_text_field(trim($title) ) . '</h2></div>';
 			}
 
 			$orders_list = $this->get_recently_order($limit, $order);

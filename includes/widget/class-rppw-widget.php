@@ -417,7 +417,7 @@ if (!class_exists('RPPW_Create_Widget')) {
 							if (!empty($rating_view) && strcmp($rating_view, 'Show') >= 0) {
 								$rating  = $product->get_average_rating();
 								$count   = $product->get_rating_count();
-
+								
 								$out .= '<div class="rppw_product_ratings">';
 								$out .= wc_get_rating_html($rating, $count);
 								$out .= '</div>';

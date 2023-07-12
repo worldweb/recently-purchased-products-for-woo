@@ -3,13 +3,13 @@
  * Plugin Name: Recently Purchased Products For Woo
  * Plugin URI: https://wordpress.org/plugins/recently-purchased-products-for-woo
  * Description: Display Recently Purchased Products For Woocommerce using Widget and Shortcode
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: World Web Technology
  * Author URI: http://www.worldwebtechnology.com
  * Text Domain: recently-purchased-products-for-woo
  * Domain Path: languages
  * 
- * WC tested up to: 7.7.1
+ * WC tested up to: 7.8.2
  * Tested up to: 6.2.2
  */
 
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) || ! defined( 'ABSPATH' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 if( !defined( 'RPPW_VERSION' ) ) {
-	define( 'RPPW_VERSION', '1.0.3' ); // Plugin Version
+	define( 'RPPW_VERSION', '1.0.4' ); // Plugin Version
 }
 
 if( !defined( 'RPPW_DIR' ) ) {
@@ -182,8 +182,8 @@ add_action( 'plugins_loaded', 'rppw_plugin_loaded' );
  */
 function rppw_add_action_links( $actions ) {
     
-  	$custom_actions[] = '<a href="https://www.worldwebtechnology.com/our-portfolio/" target="_blank">'. __('More by World Web Technology','	recently-purchased-products-for-woo') . '</a>';
+  $custom_actions[] = '<a href="https://www.worldwebtechnology.com/our-portfolio/" target="_blank">'. __('More by World Web Technology','	recently-purchased-products-for-woo') . '</a>';
     
-  	return array_merge( $actions, $custom_actions );
+  return array_merge( $actions, $custom_actions );
 }
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'rppw_add_action_links' );
