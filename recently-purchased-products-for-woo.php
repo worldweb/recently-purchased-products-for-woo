@@ -3,14 +3,13 @@
  * Plugin Name: Recently Purchased Products For Woo
  * Plugin URI: https://wordpress.org/plugins/recently-purchased-products-for-woo
  * Description: Display Recently Purchased Products For Woocommerce using Widget and Shortcode
- * Version: 1.0.4
+ * Version: 1.0.7
  * Author: World Web Technology
  * Author URI: http://www.worldwebtechnology.com
  * Text Domain: recently-purchased-products-for-woo
  * Domain Path: languages
  * 
- * WC tested up to: 7.8.2
- * Tested up to: 6.2.2
+ * Tested up to: 6.4.2
  */
 
 // If this file is called directly, abort.
@@ -31,7 +30,7 @@ if ( ! defined( 'WPINC' ) || ! defined( 'ABSPATH' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 if( !defined( 'RPPW_VERSION' ) ) {
-	define( 'RPPW_VERSION', '1.0.4' ); // Plugin Version
+	define( 'RPPW_VERSION', '1.0.7' ); // Plugin Version
 }
 
 if( !defined( 'RPPW_DIR' ) ) {
@@ -117,9 +116,11 @@ if( !function_exists( 'rppw_woocommerce_required_error' ) ) {
 	
 	function rppw_woocommerce_required_error() {
 		
-		echo '<div class="notice notice-error">
-				<p>'. sprintf( esc_html__( 'Recently Purchased Products requires %WooCommerce% plugin to be active.', 'recently-purchased-products-for-woo' ), '<strong>', '</strong>') . '</p>
-			</div>';
+		echo '<div class="notice notice-error"><p>';
+		echo esc_html__('Recently Purchased Products requires', 'recently-purchased-products-for-woo'); 
+		echo '<strong> WooCommerce </strong>'; 
+		echo esc_html__('plugin to be active.', 'recently-purchased-products-for-woo');
+		echo '</p></div>';
 	}
 }
 
@@ -187,3 +188,33 @@ function rppw_add_action_links( $actions ) {
   return array_merge( $actions, $custom_actions );
 }
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'rppw_add_action_links' );
+
+
+
+/* Recently Purchase Elementor Widget */
+
+function register_elementor_recently_purchase_widget( $widgets_manager ) {
+
+	require_once( __DIR__ . '/includes/widget/class-rppw-elementor-widget.php' );
+
+	$widgets_manager->register( new \RPPW_Elementor_Widget() );
+
+}
+add_action( 'elementor/widgets/register', 'register_elementor_recently_purchase_widget' );
+
+/* display message for elementor widget start */
+
+function rpp_admin_notice_info() {
+global $pagenow;
+$admin_pages = [ 'index.php','plugins.php' ];
+
+if ( in_array( $pagenow, $admin_pages )){
+ ?>
+	<div class="notice notice-info is-dismissible">
+	<p><b><?php _e( 'New Feature Update:');?></b><?php _e( ' A Recent Purchases Widget for Elementor has been introduced to showcase recently bought products.', 'recently-purchased-products-for-woo' ); ?></p>
+	</div>
+
+<?php
+ }
+}
+add_action( 'admin_notices', 'rpp_admin_notice_info' );
