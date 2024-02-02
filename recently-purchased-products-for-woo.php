@@ -9,7 +9,7 @@
  * Text Domain: recently-purchased-products-for-woo
  * Domain Path: languages
  * 
- * Tested up to: 6.4.2
+ * Tested up to: 6.4
  */
 
 // If this file is called directly, abort.
@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) || ! defined( 'ABSPATH' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 if( !defined( 'RPPW_VERSION' ) ) {
-	define( 'RPPW_VERSION', '1.0.7' ); // Plugin Version
+	define( 'RPPW_VERSION', '1.0.6' ); // Plugin Version
 }
 
 if( !defined( 'RPPW_DIR' ) ) {
@@ -200,7 +200,10 @@ function register_elementor_recently_purchase_widget( $widgets_manager ) {
 	$widgets_manager->register( new \RPPW_Elementor_Widget() );
 
 }
-add_action( 'elementor/widgets/register', 'register_elementor_recently_purchase_widget' );
+
+if( phpversion() > '7.4' ) {
+		add_action( 'elementor/widgets/register', 'register_elementor_recently_purchase_widget' );
+}
 
 /* display message for elementor widget start */
 
@@ -211,10 +214,28 @@ $admin_pages = [ 'index.php','plugins.php' ];
 if ( in_array( $pagenow, $admin_pages )){
  ?>
 	<div class="notice notice-info is-dismissible">
-	<p><b><?php _e( 'New Feature Update:');?></b><?php _e( ' A Recent Purchases Widget for Elementor has been introduced to showcase recently bought products.', 'recently-purchased-products-for-woo' ); ?></p>
+	<p><b><?php _e( 'New Feature Update:');?></b><?php _e( ' A Recent Purchases Widget for Elementor has been introduced to showcase recently bought products. To use this feature it needs minimum PHP version 7.4.', 'recently-purchased-products-for-woo' ); ?></p>
 	</div>
 
 <?php
  }
 }
 add_action( 'admin_notices', 'rpp_admin_notice_info' );
+
+function rpp_plugin_notice_cb() {
+    $plugin_file = plugin_basename(__FILE__); // Replace with your plugin file
+    $php_version = phpversion();
+
+    if( $php_version < '7.4' ) {
+        add_action("after_plugin_row_{$plugin_file}", function($plugin_file, $plugin_data, $status) {
+            echo '<tr class="plugin-update-tr active">';
+            echo '<td colspan="4" class="plugin-update colspanchange">';
+            echo '<div class="update-message notice inline notice-warning notice-alt">';
+            echo '<p><strong>' . __('Heads Up!', 'recently-purchased-products-for-woo') . '</strong>' . __(' You must need to update the PHP version (minimum 7.4) to use the Elementor widget', 'recently-purchased-products-for-woo') . '</p>';
+            echo '</div>';
+            echo '</td>';
+            echo '</tr>';
+        }, 10, 3);
+    }
+}
+add_action('admin_init', 'rpp_plugin_notice_cb');

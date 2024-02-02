@@ -113,6 +113,12 @@ Below are the Widget supported options
 2. List of Recently Purchased Products with List View
 3. Slider view of Recently Purchased Products
 4. Widget view of Recently Purchased Products in sidebar
+5. Backend Side Elementor Widget
+6. Backend Side Elementor Widget Options
+7. Backend Side Elementor Widget Options for Slider View
+8. Front Side Elementor Widget Slider View
+9. Front Side Elementor Widget Grid View
+10. Front Side Elementor Widget List View
 
 == Frequently Asked Questions ==
 

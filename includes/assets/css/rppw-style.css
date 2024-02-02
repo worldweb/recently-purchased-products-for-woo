@@ -1221,6 +1221,30 @@ a.button.wp-element-button.product_type_variable.add_to_cart_button {
 }
 
 
+.elementor-page .recently_purchased_products_for_woo .star-rating{
+   float: left;
+}
+.elementor-page .recently_purchased_products_for_woo.rppw-product-slider .star-rating{
+   float: none;
+    margin: 10px auto;
+}
+.elementor-page .recently_purchased_products_for_woo .rppw_product_cart-box{
+   width: 100%;
+    float: left;
+}
+.elementor-page .recently_purchased_products_for_woo .rppw_product_cart-box p.product.woocommerce.add_to_cart_inline{
+   float: left;
+    margin: 10px 0px;
+}
+.elementor-page .recently_purchased_products_for_woo.rppw-product-slider .rppw_product_cart-box p.product.woocommerce.add_to_cart_inline{
+   float: none;
+}
+
+.elementor-page .recently_purchased_products_for_woo.item-list-productsgrid .rppw_product_img img,.elementor-page .recently_purchased_products_for_woo.item-list-productslist .rppw_product_img img{
+   margin:0;
+}
+
+
 
 @media screen and (max-width: 767px) {
 
